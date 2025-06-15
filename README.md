@@ -37,10 +37,8 @@ flutter run
 🧱 Architecture & Design
 This app uses the Stacked architecture, which is built on top of MVVM and service-based architecture.
 
-📦 Folder Structure
-bash
-Copy
-Edit
+###  📦 Folder Structure
+
 lib/
 ├── app/
 │   └── app.dart               # App setup (router, dependency injection)
@@ -50,4 +48,5 @@ lib/
 │   ├── views/                 # UI screens (View + ViewModel)
 │   └── widgets/               # Reusable widgets
 └── main.dart                  # App entry point
+      
 
