@@ -26,7 +26,7 @@ These instructions will help you install and run the project on your local machi
 flutter pub get
 ### Run the project:
 flutter run
-🧱 Architecture & Design
+### 🧱 Architecture & Design
 This app uses the Stacked architecture, which is built on top of MVVM and service-based architecture.
 
 ###  📦 Folder Structure
