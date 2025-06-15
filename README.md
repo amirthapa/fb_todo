@@ -20,11 +20,13 @@ These instructions will help you install and run the project on your local machi
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/my_flutter_stacked_app.git
-   cd my_flutter_stacked_app
-### Get the dependencies:
+  git clone https://github.com/amirthapa/fb_todo.git
+
+2. **Get the dependencies:**
+   ```bash
 flutter pub get
-### Run the project:
+3. **Run the project:** 
+ ```bash
 flutter run
 ### 🧱 Architecture & Design
 This app uses the Stacked architecture, which is built on top of MVVM and service-based architecture.
