@@ -22,17 +22,9 @@ These instructions will help you install and run the project on your local machi
    ```bash
    git clone https://github.com/your-username/my_flutter_stacked_app.git
    cd my_flutter_stacked_app
-Get the dependencies:
-
-bash
-Copy
-Edit
+### Get the dependencies:
 flutter pub get
-Run the project:
-
-bash
-Copy
-Edit
+### Run the project:
 flutter run
 🧱 Architecture & Design
 This app uses the Stacked architecture, which is built on top of MVVM and service-based architecture.
