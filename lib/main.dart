@@ -11,7 +11,6 @@ import 'package:todo/ui/common/shared_pref_utils.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setupLocator();
-
   setupDialogUi();
   setupBottomSheetUi();
   await SharedPrefUtils.init();

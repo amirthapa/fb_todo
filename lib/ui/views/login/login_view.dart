@@ -14,22 +14,27 @@ class LoginView extends StackedView<LoginViewModel> {
     Widget? child,
   ) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const Text(
-            'Login for Todo App',
-            style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-          ),
-          verticalSpaceMedium,
-          AppButton(
-              label: loginWithGmail,
-              onPressed: () {
-                viewModel.signInWithGmail();
-              })
-        ],
+      appBar: AppBar(
+        backgroundColor: kcPrimaryColor,
+        foregroundColor: Colors.white,
+        title: const Text('Login'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'Login for Todo App',
+              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+            ),
+            verticalSpaceMedium,
+            AppButton(
+                label: loginWithGmail,
+                onPressed: () {
+                  viewModel.signInWithGmail();
+                }),
+          ],
+        ),
       ),
     );
   }

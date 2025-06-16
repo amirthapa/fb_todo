@@ -20,7 +20,7 @@ class AppButton extends StatelessWidget {
         backgroundColor:
             isEnabled! ? Theme.of(context).colorScheme.primary : kcPrimaryColor,
         foregroundColor: Colors.white,
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       ),
       onPressed: isEnabled! ? () => onPressed() : null,
       child: Text(label),
