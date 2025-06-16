@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:todo/ui/common/app_button.dart';
-import 'package:todo/ui/common/app_strings.dart';
-import 'package:todo/ui/common/ui_helpers.dart';
+import 'package:todo/ui/common/common.dart';
 
 import 'login_viewmodel.dart';
 
@@ -26,7 +24,11 @@ class LoginView extends StackedView<LoginViewModel> {
             style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
           ),
           verticalSpaceMedium,
-          AppButton(label: loginWithGmail, onPressed: () {})
+          AppButton(
+              label: loginWithGmail,
+              onPressed: () {
+                viewModel.signInWithGmail();
+              })
         ],
       ),
     );
