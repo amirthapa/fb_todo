@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -12,6 +15,36 @@ class LoginViewModel extends BaseViewModel {
   final _firebaseAuthService = locator<FireauthService>();
   final _dialogService = locator<DialogService>();
   final _navigationService = locator<NavigationService>();
+
+  Future<String?> generatePieSocketJwt(User? user) async {
+    // Ensure Firebase is initialized
+    log(user?.getIdToken().toString() ?? "");
+    if (user == null) {
+      return null;
+    }
+
+    // 👇 Prepare payload for PieSocket
+    final payload = {
+      "user_id": user.uid,
+      "sub": "chat-room",
+      "iat": DateTime.now().millisecondsSinceEpoch ~/ 1000,
+      "name": user.displayName ?? "Guest",
+      "email": user.email ?? "",
+    };
+
+    // 👇 Use your PieS"ocket API Secret
+    const secretKey = "jXqsNUdRNjd5y9C07PpThVDoxVFIBA66";
+    try {
+      final jwt = JWT(payload);
+      final token =
+          jwt.sign(SecretKey(secretKey), algorithm: JWTAlgorithm.HS256);
+      log(token.toString());
+      return token;
+    } catch (e) {
+      log(e.toString());
+      return null;
+    }
+  }
 
   Future<void> signInWithGmail() async {
     try {
@@ -42,10 +75,7 @@ class LoginViewModel extends BaseViewModel {
         SharedPrefKeys.userEmail,
         user.email!,
       );
-      SharedPrefUtils.setBool(
-        SharedPrefKeys.isLoggedIn,
-        true,
-      );
+
       SharedPrefUtils.setString(
         SharedPrefKeys.userId,
         user.uid,
@@ -55,11 +85,22 @@ class LoginViewModel extends BaseViewModel {
         user.displayName!,
       );
 
-      SharedPrefUtils.setString(
-        SharedPrefKeys.token,
-        token ?? "",
-      );
-      _gotoHomeView();
+      String? token = await generatePieSocketJwt(user);
+      if (token != null) {
+        await SharedPrefUtils.setString(
+          SharedPrefKeys.token,
+          token,
+        );
+        await SharedPrefUtils.setBool(
+          SharedPrefKeys.isLoggedIn,
+          true,
+        );
+        _gotoHomeView();
+      } else {
+        Fluttertoast.showToast(
+          msg: "Unable to generate PieSocket JWT",
+        );
+      }
     } else {
       Fluttertoast.showToast(
         msg: "User is null, cannot save auth data",

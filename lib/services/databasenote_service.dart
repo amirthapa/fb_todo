@@ -64,7 +64,7 @@ class DatabasenoteService {
         title TEXT,
         content TEXT,
         timestamp INTEGER,
-        shared INTEGER
+        share INTEGER
       )
     ''');
   }

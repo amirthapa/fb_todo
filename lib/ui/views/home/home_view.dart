@@ -65,14 +65,13 @@ class HomeView extends StackedView<HomeViewModel> {
       NoteModel? noteModel}) async {
     viewModel.contentController.text = noteModel?.content ?? '';
     viewModel.titleController.text = noteModel?.title ?? '';
-
+    bool isShared = noteModel?.share == 1 ? true : false;
     return showModalBottomSheet(
       showDragHandle: true,
       elevation: 3,
       isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {
-        var isShared = noteModel?.share == 1 ? true : false;
         return StatefulBuilder(
           builder:
               (BuildContext context, void Function(void Function()) setState) {
@@ -141,7 +140,7 @@ class HomeView extends StackedView<HomeViewModel> {
                               content: viewModel.contentController.text,
                               timestamp:
                                   '${DateTime.now().day}/${DateTime.now().month}',
-                              share: viewModel.isShared == true ? 1 : 0))
+                              share: isShared == true ? 1 : 0))
                           : viewModel.updateNote(NoteModel(
                               id: noteModel.id ??
                                   DateTime.now().microsecondsSinceEpoch,

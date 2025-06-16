@@ -30,7 +30,7 @@ class NoteModel {
       'title': title,
       'content': content,
       'timestamp': timestamp,
-      'shared': share,
+      'share': share,
     };
   }
 }

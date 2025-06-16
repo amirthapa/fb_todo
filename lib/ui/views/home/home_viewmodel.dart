@@ -15,10 +15,9 @@ class HomeViewModel extends BaseViewModel {
   TextEditingController titleController = TextEditingController();
   TextEditingController contentController = TextEditingController();
   Channel? channel;
-  bool isShared = false;
+
   PieSocketEvent newMessage = PieSocketEvent("new_message");
-  String websocketUrl =
-      "wss://s14802.nyc1.piesocket.com/v3/1?api_key=LVB4q71feWGqIewkFA8zljrxzt5wmlbMedwM9OCf&notify_self=0&jwt:${SharedPrefUtils.getString(SharedPrefKeys.token)}";
+
   final List<NoteModel> _notes = [];
 
   List<NoteModel> get notes => _notes;
@@ -26,14 +25,13 @@ class HomeViewModel extends BaseViewModel {
   Future<void> addNote(NoteModel note) async {
     await _offlineDatabaseService.insertNote(note);
     _notes.add(note);
+    rebuildUi();
     puplishMessage(note);
-    notifyListeners();
   }
 
   clearControllers() {
     titleController.clear();
     contentController.clear();
-    isShared = false;
   }
 
   Future<void> deleteNote(int id) async {
@@ -68,18 +66,17 @@ class HomeViewModel extends BaseViewModel {
     options.setNotifySelf(false);
     options.setApiKey("LVB4q71feWGqIewkFA8zljrxzt5wmlbMedwM9OCf");
 
-    // options.setJwt(SharedPrefUtils.getString(SharedPrefKeys.token) ?? "");
+    options.setJwt(SharedPrefUtils.getString(SharedPrefKeys.token) ?? "");
     PieSocket piesocket = PieSocket(options);
     channel = piesocket.join("chat-room");
     await channel?.connect();
-    channel?.listen("system:connected", (PieSocketEvent event) {
-      log("HERER");
-    });
+    channel?.listen("system:connected", (PieSocketEvent event) {});
 
     channel?.listen("new_message", (PieSocketEvent event) {
-      log("New message received: ${event.getData()}");
+      log(event.toString());
       if (event.getData().isEmpty) return;
       NoteModel note = NoteModel.fromJson(jsonDecode(event.getData()));
+
       if (!_notes.any((n) => n.id == note.id)) {
         _notes.add(note);
         notifyListeners();
@@ -87,7 +84,7 @@ class HomeViewModel extends BaseViewModel {
         int index = _notes.indexWhere((n) => n.id == note.id);
         if (index != -1) {
           _notes[index] = note;
-          notifyListeners();
+          rebuildUi();
         }
       }
     });
@@ -98,8 +95,6 @@ class HomeViewModel extends BaseViewModel {
       newMessage.setData(jsonEncode(note.toMap()));
       channel?.publish(newMessage);
     }
-
-    //Publish event
   }
 
   sortByDate() {
@@ -111,8 +106,9 @@ class HomeViewModel extends BaseViewModel {
     int index = _notes.indexWhere((n) => n.id == note.id);
     if (index != -1) {
       _notes[index] = note;
+
+      rebuildUi();
       puplishMessage(note);
-      notifyListeners();
     }
   }
 }
