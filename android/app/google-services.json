@@ -12,7 +12,12 @@
           "package_name": "com.example.todo"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "399307797010-v5knf3rmm0qbnuse24k5af71a4ovv2m5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDxp6eJgPzgmHhRe6YT-8rkt0tOrTLTG7c"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "399307797010-v5knf3rmm0qbnuse24k5af71a4ovv2m5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "399307797010-da1nl24em61t8mfqk9df8hu37ikh72go.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.todo"
+              }
+            }
+          ]
         }
       }
     }
