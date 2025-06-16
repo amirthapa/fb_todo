@@ -1,10 +1,11 @@
 class NoteModel {
+  int? id;
   String? title;
   String? content;
   String? timestamp;
   bool? share;
 
-  NoteModel({this.title, this.content, this.timestamp, this.share});
+  NoteModel({this.id, this.title, this.content, this.timestamp, this.share});
 
   NoteModel.fromJson(Map<String, dynamic> json) {
     if (json["title"] is String) {
@@ -19,14 +20,17 @@ class NoteModel {
     if (json["share"] is bool) {
       share = json["share"];
     }
+    if (json["id"] is int) {
+      id = json["id"];
+    }
   }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data["title"] = title;
-    data["content"] = content;
-    data["timestamp"] = timestamp;
-    data["share"] = share;
-    return data;
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'title': title,
+      'content': content,
+      'timestamp': timestamp,
+      'shared': share,
+    };
   }
 }
