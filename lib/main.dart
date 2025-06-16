@@ -6,6 +6,7 @@ import 'package:todo/app/app.dialogs.dart';
 import 'package:todo/app/app.locator.dart';
 import 'package:todo/app/app.router.dart';
 import 'package:todo/firebase_options.dart';
+import 'package:todo/ui/common/shared_pref_utils.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,6 +14,7 @@ Future<void> main() async {
 
   setupDialogUi();
   setupBottomSheetUi();
+  await SharedPrefUtils.init();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MainApp());
 }
