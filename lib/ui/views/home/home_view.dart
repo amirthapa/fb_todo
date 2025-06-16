@@ -63,15 +63,16 @@ class HomeView extends StackedView<HomeViewModel> {
       {required BuildContext context,
       required HomeViewModel viewModel,
       NoteModel? noteModel}) async {
+    viewModel.contentController.text = noteModel?.content ?? '';
+    viewModel.titleController.text = noteModel?.title ?? '';
+
     return showModalBottomSheet(
       showDragHandle: true,
       elevation: 3,
       isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {
-        bool isShared = noteModel?.share ?? false;
-        viewModel.contentController.text = noteModel?.content ?? '';
-        viewModel.titleController.text = noteModel?.title ?? '';
+        var isShared = noteModel?.share == 1 ? true : false;
         return StatefulBuilder(
           builder:
               (BuildContext context, void Function(void Function()) setState) {
@@ -95,7 +96,10 @@ class HomeView extends StackedView<HomeViewModel> {
                                 Navigator.pop(context);
                               }
                             },
-                            icon: const Icon(Icons.delete)),
+                            icon: const Icon(
+                              Icons.delete,
+                              color: Colors.red,
+                            )),
                       )
                     ],
                   ),
@@ -117,7 +121,7 @@ class HomeView extends StackedView<HomeViewModel> {
                           value: isShared,
                           onChanged: (value) {
                             setState(() {
-                              isShared = value ?? false;
+                              isShared = !isShared;
                             });
                           }),
                     ],
@@ -137,8 +141,7 @@ class HomeView extends StackedView<HomeViewModel> {
                               content: viewModel.contentController.text,
                               timestamp:
                                   '${DateTime.now().day}/${DateTime.now().month}',
-                              share: isShared,
-                            ))
+                              share: viewModel.isShared == true ? 1 : 0))
                           : viewModel.updateNote(NoteModel(
                               id: noteModel.id ??
                                   DateTime.now().microsecondsSinceEpoch,
@@ -146,7 +149,7 @@ class HomeView extends StackedView<HomeViewModel> {
                               content: viewModel.contentController.text,
                               timestamp:
                                   '${DateTime.now().day}/${DateTime.now().month}',
-                              share: isShared,
+                              share: isShared == true ? 1 : 0,
                             ));
 
                       viewModel.clearControllers();

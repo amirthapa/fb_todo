@@ -3,7 +3,7 @@ class NoteModel {
   String? title;
   String? content;
   String? timestamp;
-  bool? share;
+  int? share;
 
   NoteModel({this.id, this.title, this.content, this.timestamp, this.share});
 
@@ -17,7 +17,7 @@ class NoteModel {
     if (json["timestamp"] is String) {
       timestamp = json["timestamp"];
     }
-    if (json["share"] is bool) {
+    if (json["share"] is int) {
       share = json["share"];
     }
     if (json["id"] is int) {
