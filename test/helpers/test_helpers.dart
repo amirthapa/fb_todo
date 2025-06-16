@@ -2,6 +2,8 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:todo/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:todo/services/fireauth_service.dart';
+import 'package:todo/services/databasenote_service.dart';
 // @stacked-import
 
 import 'test_helpers.mocks.dart';
@@ -12,14 +14,18 @@ import 'test_helpers.mocks.dart';
     MockSpec<NavigationService>(onMissingStub: OnMissingStub.returnDefault),
     MockSpec<BottomSheetService>(onMissingStub: OnMissingStub.returnDefault),
     MockSpec<DialogService>(onMissingStub: OnMissingStub.returnDefault),
-    // @stacked-mock-spec
+    MockSpec<FireauthService>(onMissingStub: OnMissingStub.returnDefault),
+    MockSpec<DatabasenoteService>(onMissingStub: OnMissingStub.returnDefault),
+// @stacked-mock-spec
   ],
 )
 void registerServices() {
   getAndRegisterNavigationService();
   getAndRegisterBottomSheetService();
   getAndRegisterDialogService();
-  // @stacked-mock-register
+  getAndRegisterFireauthService();
+  getAndRegisterDatabasenoteService();
+// @stacked-mock-register
 }
 
 MockNavigationService getAndRegisterNavigationService() {
@@ -76,6 +82,19 @@ MockDialogService getAndRegisterDialogService() {
   return service;
 }
 
+MockFireauthService getAndRegisterFireauthService() {
+  _removeRegistrationIfExists<FireauthService>();
+  final service = MockFireauthService();
+  locator.registerSingleton<FireauthService>(service);
+  return service;
+}
+
+MockDatabasenoteService getAndRegisterDatabasenoteService() {
+  _removeRegistrationIfExists<DatabasenoteService>();
+  final service = MockDatabasenoteService();
+  locator.registerSingleton<DatabasenoteService>(service);
+  return service;
+}
 // @stacked-mock-create
 
 void _removeRegistrationIfExists<T extends Object>() {

@@ -65,5 +65,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'todo-socket-test.firebasestorage.app',
     iosBundleId: 'com.example.todo',
   );
-
 }
