@@ -6,6 +6,7 @@ import 'package:piesocket_channels/channels.dart';
 import 'package:stacked/stacked.dart';
 import 'package:todo/app/app.locator.dart';
 import 'package:todo/services/databasenote_service.dart';
+import 'package:todo/ui/common/pie_cred_const.dart';
 import 'package:todo/ui/common/shared_pref_keys.dart';
 import 'package:todo/ui/common/shared_pref_utils.dart';
 import 'package:todo/ui/views/home/models/note_model.dart';
@@ -16,7 +17,7 @@ class HomeViewModel extends BaseViewModel {
   TextEditingController contentController = TextEditingController();
   Channel? channel;
 
-  PieSocketEvent newMessage = PieSocketEvent("new_message");
+  PieSocketEvent newMessage = PieSocketEvent(PieCredConst.eventName);
 
   final List<NoteModel> _notes = [];
 
@@ -44,6 +45,7 @@ class HomeViewModel extends BaseViewModel {
   @override
   void dispose() {
     disposeControllers();
+    channel?.disconnect();
     super.dispose();
   }
 
@@ -62,17 +64,17 @@ class HomeViewModel extends BaseViewModel {
 
   initSocket() async {
     PieSocketOptions options = PieSocketOptions();
-    options.setClusterId("s14802.nyc1");
+    options.setClusterId(PieCredConst.clustterId);
     options.setNotifySelf(false);
-    options.setApiKey("LVB4q71feWGqIewkFA8zljrxzt5wmlbMedwM9OCf");
+    options.setApiKey(PieCredConst.apiKey);
 
     options.setJwt(SharedPrefUtils.getString(SharedPrefKeys.token) ?? "");
     PieSocket piesocket = PieSocket(options);
-    channel = piesocket.join("chat-room");
+    channel = piesocket.join(PieCredConst.roomId);
     await channel?.connect();
     channel?.listen("system:connected", (PieSocketEvent event) {});
 
-    channel?.listen("new_message", (PieSocketEvent event) {
+    channel?.listen(PieCredConst.eventName, (PieSocketEvent event) {
       log(event.toString());
       if (event.getData().isEmpty) return;
       NoteModel note = NoteModel.fromJson(jsonDecode(event.getData()));

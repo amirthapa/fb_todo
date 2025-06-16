@@ -10,6 +10,7 @@ import 'package:todo/app/app.locator.dart';
 import 'package:todo/app/app.router.dart';
 import 'package:todo/services/fireauth_service.dart';
 import 'package:todo/ui/common/common.dart';
+import 'package:todo/ui/common/pie_cred_const.dart';
 
 class LoginViewModel extends BaseViewModel {
   final _firebaseAuthService = locator<FireauthService>();
@@ -26,18 +27,16 @@ class LoginViewModel extends BaseViewModel {
     // 👇 Prepare payload for PieSocket
     final payload = {
       "user_id": user.uid,
-      "sub": "chat-room",
+      "sub": PieCredConst.roomId,
       "iat": DateTime.now().millisecondsSinceEpoch ~/ 1000,
       "name": user.displayName ?? "Guest",
       "email": user.email ?? "",
     };
 
-    // 👇 Use your PieS"ocket API Secret
-    const secretKey = "jXqsNUdRNjd5y9C07PpThVDoxVFIBA66";
     try {
       final jwt = JWT(payload);
-      final token =
-          jwt.sign(SecretKey(secretKey), algorithm: JWTAlgorithm.HS256);
+      final token = jwt.sign(SecretKey(PieCredConst.secretKey),
+          algorithm: JWTAlgorithm.HS256);
       log(token.toString());
       return token;
     } catch (e) {
